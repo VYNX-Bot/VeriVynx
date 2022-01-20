@@ -4,9 +4,11 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
+from src.cogs.utils.slash import Bot
+
 load_dotenv()
 
-bot = commands.Bot("vv", intents=discord.Intents.all())
+bot = Bot("vv", intents=discord.Intents.all())
 
 
 @bot.event

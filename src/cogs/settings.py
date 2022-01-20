@@ -10,7 +10,11 @@ class Settings(commands.Cog):
         self.bot = bot
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def set_verify_channel(self, ctx, channel: discord.TextChannel = None):
+        """
+        Set the verification channel.
+        """
         if channel == None:
             await ctx.send(
                 f"Please specify a channel to set as the verification channel."
@@ -27,7 +31,11 @@ class Settings(commands.Cog):
         await ctx.send(f"Verification channel set to {channel.mention}")
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def set_verify_role(self, ctx, role: discord.Role = None):
+        """
+        Set the verification role.
+        """
         if role == None:
             await ctx.send(f"Please specify a role to set as the verification role.")
             return
@@ -42,7 +50,12 @@ class Settings(commands.Cog):
         await ctx.send(f"Verification role set to {role.mention}")
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def set_verify_message(self, ctx, *, message=None):
+        """
+        Set the verification message.
+        """
+
         if message == None:
             await ctx.send(
                 f"Please specify a message to set as the verification message."
@@ -59,7 +72,11 @@ class Settings(commands.Cog):
         await ctx.send(f"Verification message set to {message}")
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def set_verify_emoji(self, ctx, emoji: discord.Emoji = None):
+        """
+        Set the verification emoji.
+        """
         if emoji == None:
             await ctx.send(f"Please specify an emoji to set as the verification emoji.")
             return
@@ -75,7 +92,11 @@ class Settings(commands.Cog):
         await ctx.send(f"Verification emoji set to {str(emoji)}")
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def set_verify_timeout(self, ctx, timeout: int = 0):
+        """
+        Set the verification timeout.
+        """
         if timeout <= 0:
             await ctx.send(f"Please specify a timeout greater than 0.")
             return
@@ -90,7 +111,11 @@ class Settings(commands.Cog):
         await ctx.send(f"Verification timeout set to {timeout} seconds")
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def set_verify_timeout_message(self, ctx, *, message=None):
+        """
+        Set the verification timeout message.
+        """
         if message == None:
             await ctx.send(
                 f"Please specify a message to set as the verification timeout message."
@@ -107,7 +132,11 @@ class Settings(commands.Cog):
         await ctx.send(f"Verification timeout message set to {message}")
 
     @commands.command()
+    @commands.has_permissions(administrator=True)
     async def set_doublesecurity(self, ctx, *, yes_or_no=None):
+        """
+        Set the double security option.
+        """
         if yes_or_no == None:
             await ctx.send(f"Please specify yes or no.")
             return
