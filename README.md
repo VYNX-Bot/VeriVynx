@@ -9,3 +9,6 @@ and then run
 ```
 poetry run python3 main.py
 ```
+### disclaimer
+i rather discord.py tbh<br>
+i am also brain dead lo
