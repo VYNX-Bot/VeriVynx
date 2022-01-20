@@ -46,3 +46,6 @@ class Help(commands.Cog):
                 value=", ".join(command.aliases) if command.aliases else "None",
             )
             await ctx.send(embed=embed)
+
+def setup(bot):
+    bot.add_cog(Help(bot))
