@@ -111,3 +111,6 @@ class Member_Handler(commands.Cog):
                 )
             else:
                 return
+
+def setup(bot):
+    bot.add_cog(Member_Handler(bot))

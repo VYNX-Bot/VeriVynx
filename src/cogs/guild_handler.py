@@ -26,6 +26,10 @@ class Guild_Handler(commands.Cog):
 
         async with aiofiles.open("src/cogs/db/db.json", "w") as f:
             await f.write(json.dumps(data, indent=4))
+        
+        embed = discord.Embed(title="Hello there!", description="I am your verification bot!\n\nBefore you can use me, you need to set up some settings.\n\nTo do so, use the command `!help` for list all settings commands.", color=0x00ff00)
+
+        await guild.text_channels[0].send(embed=embed)
 
 
 def setup(bot):

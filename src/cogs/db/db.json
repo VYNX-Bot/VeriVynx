@@ -1,5 +1,14 @@
 {
-    "guilds":[
-        
-    ]
+    "guilds": {
+        "902959570824081438": {
+            "verify_channel": 911953815207542815,
+            "verify_role": null,
+            "verify_message": null,
+            "verify_emoji": null,
+            "verify_timeout": null,
+            "verify_timeout_message": null,
+            "doublesecurity": false,
+            "double_verify": "yes"
+        }
+    }
 }

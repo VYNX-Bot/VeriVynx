@@ -7,8 +7,6 @@ from src.cogs.utils import slash
 
 
 class SlashSettings(slash.ApplicationCog):
-    def __init__(self, bot):
-        self.bot = bot
 
     @slash.slash_command()
     @slash.describe(channel="Verification channel")
@@ -75,7 +73,7 @@ class SlashSettings(slash.ApplicationCog):
 
     @slash.slash_command()
     @slash.describe(emoji="Verification channel")
-    async def set_verify_emoji(self, ctx: slash.Context, emoji: discord.Emoji):
+    async def set_verify_emoji(self, ctx: slash.Context, emoji: str):
         if ctx.author.guild_permissions.administrator == False:
             return await ctx.send(
                 "You do not have the required permissions to use this command."
@@ -130,6 +128,26 @@ class SlashSettings(slash.ApplicationCog):
             await f.write(json.dumps(data, indent=4))
 
         await ctx.send(f"Verification timeout message set to {message}")
+    
+    @slash.slash_command()
+    @slash.describe(yes_or_no="Response: Yes or no")
+    async def set_double_verify(self, ctx: slash.Context, yes_or_no: str):
+        """
+        Set the double verification.
+        """
+        if ctx.author.guild_permissions.administrator == False:
+            return await ctx.send(
+                "You do not have the required permissions to use this command."
+            )
+        async with aiofiles.open("src/cogs/db/db.json") as f:
+            data = json.loads(await f.read())
+
+        data["guilds"][str(ctx.guild.id)]["double_verify"] = yes_or_no
+
+        async with aiofiles.open("src/cogs/db/db.json", "w") as f:
+            await f.write(json.dumps(data, indent=4))
+
+        await ctx.send(f"Double verification set to {yes_or_no}")
 
     @slash.slash_command()
     @slash.describe(command="The command you want to get help")
@@ -138,8 +156,8 @@ class SlashSettings(slash.ApplicationCog):
         Get help for a command.
         """
         if command is None:
-            embed = nextcord.Embed(
-                title="Help", description="", color=nextcord.Color.blue()
+            embed = discord.Embed(
+                title="Help", description="", color=discord.Color.blue()
             )
             for command in self.bot.commands:
                 if command.hidden:
@@ -160,10 +178,10 @@ class SlashSettings(slash.ApplicationCog):
             if command is None:
                 await ctx.send("That command does not exist.")
                 return
-            embed = nextcord.Embed(
+            embed = discord.Embed(
                 title=f"Help: {command.name}",
                 description=command.help,
-                color=nextcord.Color.blue(),
+                color=discord.Color.blue(),
             )
             embed.add_field(name="Usage", value=command.usage)
             embed.add_field(
