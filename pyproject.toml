@@ -6,7 +6,13 @@ authors = ["timelessnesses <mooping3roblox@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
+flake8 = "^4.0.1"
+isort = "^5.10.1"
+black = "^21.12b0"
+python-dotenv = "^0.19.2"
+"discord.py" = {git = "https://github.com/Rapptz/discord.py"}
+aiohttp = {version = "<3.8.0", extras = ["speedups"]}
 
 [tool.poetry.dev-dependencies]
 
