@@ -2,12 +2,10 @@ import json
 
 import aiofiles
 import discord
-
 from src.cogs.utils import slash
 
 
 class SlashSettings(slash.ApplicationCog):
-
     @slash.slash_command()
     @slash.describe(channel="Verification channel")
     async def set_verify_channel(
@@ -128,7 +126,7 @@ class SlashSettings(slash.ApplicationCog):
             await f.write(json.dumps(data, indent=4))
 
         await ctx.send(f"Verification timeout message set to {message}")
-    
+
     @slash.slash_command()
     @slash.describe(yes_or_no="Response: Yes or no")
     async def set_double_verify(self, ctx: slash.Context, yes_or_no: str):

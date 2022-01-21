@@ -13,8 +13,8 @@ class Help(commands.Cog):
         Get help for a command.
         """
         if command is None:
-            embed = nextcord.Embed(
-                title="Help", description="", color=nextcord.Color.blue()
+            embed = discord.Embed(
+                title="Help", description="", color=discord.Color.blue()
             )
             for command in self.bot.commands:
                 if command.hidden:
@@ -35,10 +35,10 @@ class Help(commands.Cog):
             if command is None:
                 await ctx.send("That command does not exist.")
                 return
-            embed = nextcord.Embed(
+            embed = discord.Embed(
                 title=f"Help: {command.name}",
                 description=command.help,
-                color=nextcord.Color.blue(),
+                color=discord.Color.blue(),
             )
             embed.add_field(name="Usage", value=command.usage)
             embed.add_field(
@@ -46,6 +46,7 @@ class Help(commands.Cog):
                 value=", ".join(command.aliases) if command.aliases else "None",
             )
             await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Help(bot))
