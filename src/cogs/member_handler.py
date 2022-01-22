@@ -60,9 +60,9 @@ class Member_Handler(commands.Cog):
                     self.current[str(payload.user_id)].cancel()
                     del self.current[str(payload.user_id)]
                 if data["guilds"][str(guild.id)]["doublesecurity"]:
-                    equation1 = random.randint(0, 10)
-                    equation2 = random.randint(0, 10)
-                    operator = random.choice(["+", "-", "*", "/"])
+                    equation1 = random.randint(2, 10)
+                    equation2 = random.randint(2, 10)
+                    operator = random.choice(["+", "-", "*"])
                     result = eval(str(equation1) + operator + str(equation2))
                     embed = discord.Embed(
                         title="Let's do some quick math.",
@@ -105,15 +105,19 @@ class Member_Handler(commands.Cog):
                                 ).name
                             )
                         )
-                data["guilds"][str(guild.id)]["verified"].append(member.id)
+                    else:
+                        await member.send("You answer the equation wrong")
+                        await member.kick()
+                        return
                 await member.add_roles(
                     guild.get_role(data["guilds"][str(guild.id)]["verify_role"])
                 )
                 await channel.send(f"{member.mention} has been verified!")
                 await member.send(f"You have been verified in {guild.name}!")
-                await aiofiles.open("src/cogs/db/db.json", "w").write(
-                    json.dumps(data, indent=4)
-                )
+                a = await channel.history(limit=None).flatten()
+                for m in a:
+                    if m.author == member or m.author == self.bot.user:
+                        await m.delete()
             else:
                 return
 
