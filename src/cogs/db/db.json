@@ -9,6 +9,15 @@
             "verify_timeout_message": null,
             "doublesecurity": false,
             "double_verify": "yes"
+        },
+        "932721712431251496": {
+            "verify_channel": 934258443815096360,
+            "verify_role": 932721712431251501,
+            "verify_message": "Welcome to Vynx\u2122\ufe0f Support!\nWe need you to verify **THAT** you're human and not <@!677970752242450463> <:kekw:933358041829638174> .",
+            "verify_emoji": 933346250160492584,
+            "verify_timeout": 30,
+            "verify_timeout_message": "You didn't verify yourself! So for security we need to kick you!",
+            "doublesecurity": true
         }
     }
 }

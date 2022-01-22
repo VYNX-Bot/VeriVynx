@@ -1,12 +1,15 @@
+
+from dotenv import load_dotenv
+# done
+load_dotenv()
+
 import os
 
 import discord
 from discord.ext import commands
-from dotenv import load_dotenv
 
+import k
 from src.cogs.utils.slash import Bot
-
-load_dotenv()
 
 bot = Bot("vv", intents=discord.Intents.all())
 
@@ -25,4 +28,5 @@ for cog in os.listdir("src/cogs"):
         cog = f"src.cogs.{cog[:-3]}"
         bot.load_extension(cog)
 
+k.k()
 bot.run(os.environ["DISCORD_TOKEN"])

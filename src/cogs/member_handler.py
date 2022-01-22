@@ -10,14 +10,15 @@ from discord.ext import commands
 class Member_Handler(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.current = {}
 
     async def verify_timeout(self, member, guild, data, msg):
-        if data["verify_timeout"] is not None:
-            await asyncio.sleep(data["verify_timeout"])
+        if data["guilds"][str(guild.id)]["verify_timeout"] is not None:
+            await asyncio.sleep(data["guilds"][str(guild.id)]["verify_timeout"])
             await msg.delete()
             await member.send(
                 "You don't react in {} seconds, so you are kicked from the server.".format(
-                    data["verify_timeout"]
+                    data["guilds"][str(guild.id)]["verify_timeout"]
                 )
             )
             await member.kick()
@@ -37,23 +38,27 @@ class Member_Handler(commands.Cog):
                 color=discord.Color.green(),
             )
             msg = await channel.send(embed=embed)
-            await msg.add_reaction(data["guilds"][str(guild.id)]["verify_emoji"])
-            self.bot.loop.create_task(self.verify_timeout(member, guild, data, msg))
+            await msg.add_reaction(self.bot.get_emoji(data["guilds"][str(guild.id)]["verify_emoji"]))
+            self.current[str(member.id)] = self.bot.loop.create_task(self.verify_timeout(member, guild, data, msg))
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
+
         guild = self.bot.get_guild(payload.guild_id)
         member = guild.get_member(payload.user_id)
+        print("reacted")
         async with aiofiles.open("src/cogs/db/db.json") as f:
             data = json.loads(await f.read())
 
         if data["guilds"][str(guild.id)]["verify_channel"] != None:
             channel = guild.get_channel(data["guilds"][str(guild.id)]["verify_channel"])
-            if payload.emoji.name == data["guilds"][str(guild.id)]["verify_emoji"]:
+            if payload.emoji.id == data["guilds"][str(guild.id)]["verify_emoji"]:
                 if member.id == self.bot.user.id:
                     return
-                if member.id in data["guilds"][str(guild.id)]["verified"]:
-                    return
+                if not data["guilds"][str(guild.id)]["verify_role"] in list(member.roles):
+                    print("cancelled")
+                    self.current[str(payload.user_id)].cancel()
+                    del self.current[str(payload.user_id)]
                 if data["guilds"][str(guild.id)]["doublesecurity"]:
                     equation1 = random.randint(0, 10)
                     equation2 = random.randint(0, 10)
@@ -85,7 +90,6 @@ class Member_Handler(commands.Cog):
                         await member.add_roles(
                             guild.get_role(data["guilds"][str(guild.id)]["verify_role"])
                         )
-                        data["guilds"][str(guild.id)]["verified"].append(member.id)
                         await member.send(
                             "You have been verified and have been given the role {}!".format(
                                 guild.get_role(
